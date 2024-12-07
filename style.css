@@ -57,34 +57,29 @@ body {
   height: 1.2em; /* 光標高度與行高一致 */
   width: 2px; /* 光標寬度 */
   background: #00ff00; /* 光標顏色 */
-  animation: blink 1s step-end infinite;
+  animation: fade-blink 1s ease-in-out infinite;
   z-index: 2;
   pointer-events: none;
 }
 
-/* 不同文字顏色 */
-.text-system {
-  color: #00ff00;
-}
-
-.text-error {
-  color: #ff0000;
-}
-
-.text-info {
-  color: #00ffff;
-}
-
+/* 光暈效果 */
 .text-highlight {
   color: #ff00ff;
+  text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
 }
 
-/* 光標閃爍效果 */
-@keyframes blink {
-  0%, 50% {
-    opacity: 1;
-  }
-  51%, 100% {
+/* 光標淡入淡出效果 */
+@keyframes fade-blink {
+  0%, 100% {
     opacity: 0;
   }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* 打字機效果 */
+.typing span {
+  display: inline-block;
+  white-space: pre;
 }
