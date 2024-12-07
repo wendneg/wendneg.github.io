@@ -3,17 +3,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("input");
   const cursor = document.getElementById("cursor");
 
-  // 打印一行內容到終端
-  function printLine(contentArray) {
+  // 打印打字機效果的文字
+  function typeText(contentArray, callback) {
+    let i = 0;
     const line = document.createElement("div");
-    contentArray.forEach(({ text, style }) => {
-      const span = document.createElement("span");
-      span.textContent = text;
-      span.className = style;
-      line.appendChild(span);
-    });
     output.appendChild(line);
-    output.scrollTop = output.scrollHeight;
+
+    function type() {
+      if (i < contentArray.length) {
+        const { text, style } = contentArray[i];
+        const span = document.createElement("span");
+        span.textContent = text;
+        span.className = style;
+        line.appendChild(span);
+        output.scrollTop = output.scrollHeight;
+        i++;
+        setTimeout(type, 50); // 調整速度
+      } else if (callback) {
+        callback();
+      }
+    }
+    type();
   }
 
   // 獲取用戶 IP
@@ -28,20 +38,20 @@ document.addEventListener("DOMContentLoaded", () => {
   function handleCommand(command) {
     switch (command) {
       case "help":
-        printLine([
+        typeText([
           { text: "Available commands: ", style: "text-system" },
           { text: "help, ip, status, clear", style: "text-highlight" },
         ]);
         break;
       case "ip":
         getUserIP((ip) => {
-          printLine([{ text: `Your IP address is: ${ip}`, style: "text-info" }]);
+          typeText([{ text: `Your IP address is: ${ip}`, style: "text-info" }]);
         });
         break;
       case "status":
         const memoryUsage = (Math.random() * 50 + 50).toFixed(2);
         const cpuLoad = (Math.random() * 30 + 10).toFixed(2);
-        printLine([
+        typeText([
           { text: "System Status:", style: "text-info" },
           { text: `\nMemory Usage: ${memoryUsage}%`, style: "text-system" },
           { text: `\nCPU Load: ${cpuLoad}%`, style: "text-system" },
@@ -51,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         output.innerHTML = "";
         break;
       default:
-        printLine([
+        typeText([
           { text: `Unknown command: `, style: "text-error" },
           { text: `"${command}"`, style: "text-highlight" },
         ]);
@@ -60,8 +70,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 初始化終端
   function initializeTerminal() {
-    printLine([{ text: "Welcome to the Interactive Terminal!", style: "text-system" }]);
-    printLine([{ text: "Type 'help' to see available commands.", style: "text-system" }]);
+    typeText(
+      [
+        { text: "Welcome to the Interactive Terminal!", style: "text-system" },
+        { text: "\nType 'help' to see available commands.", style: "text-system" },
+      ],
+      () => input.focus()
+    );
   }
 
   // 動態更新光標位置
@@ -83,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Enter") {
       const command = input.value.trim();
       if (command) {
-        printLine([
+        typeText([
           { text: "C:\\Users\\Anonymous> ", style: "text-system" },
           { text: command, style: "text-highlight" },
         ]);
