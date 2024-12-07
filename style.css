@@ -54,9 +54,9 @@ body {
 
 #cursor {
   position: absolute;
-  height: 1.2em; /* 光標高度與行高一致 */
-  width: 2px; /* 光標寬度 */
-  background: #00ff00; /* 光標顏色 */
+  height: 1.2em;
+  width: 2px;
+  background: #00ff00;
   animation: fade-blink 1s ease-in-out infinite;
   z-index: 2;
   pointer-events: none;
