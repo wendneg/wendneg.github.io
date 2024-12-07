@@ -1,82 +1,90 @@
-/* styles.css */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Courier New', Courier, monospace;
-    background-color: #000; /* 黑色背景 */
-    color: #00ff00; /* 綠色文字 */
-    text-align: center;
-    overflow: hidden;
+  margin: 0;
+  background: #000;
+  color: #00ff00;
+  font-family: "Courier New", monospace;
+  font-size: 20px;
+  line-height: 1.6;
 }
 
-.container {
-    padding: 10% 5%;
+#terminal {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 20px;
+  overflow: hidden;
 }
 
-h1 {
-    font-size: 3em;
-    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+#output {
+  flex-grow: 1;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  margin-bottom: 10px;
 }
 
-p {
-    font-size: 1.2em;
+#input-line {
+  display: flex;
+  align-items: center;
 }
 
-a {
-    color: #00ff00;
-    text-decoration: none;
+#prompt {
+  color: #00ff00;
+  margin-right: 5px;
 }
 
-a:hover {
-    text-shadow: 0 0 5px #00ff00;
+#input-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex-grow: 1;
 }
 
-/* 打字效果 */
-.typing-effect {
-    font-size: 1.5em;
-    white-space: nowrap;
-    overflow: hidden;
-    width: fit-content;
-    margin: 0 auto;
+#input {
+  background: none;
+  border: none;
+  color: #00ff00;
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+  caret-color: transparent; /* 隱藏內建光標 */
+  position: absolute;
+  width: 100%;
+  z-index: 1;
 }
 
-.cursor {
-    display: inline-block;
-    background-color: #00ff00;
-    width: 10px;
-    height: 1em;
-    animation: blink 0.8s steps(2, start) infinite;
+#cursor {
+  position: absolute;
+  height: 1.2em; /* 光標高度與行高一致 */
+  width: 2px; /* 光標寬度 */
+  background: #00ff00; /* 光標顏色 */
+  animation: blink 1s step-end infinite;
+  z-index: 2;
+  pointer-events: none;
 }
 
+/* 不同文字顏色 */
+.text-system {
+  color: #00ff00;
+}
+
+.text-error {
+  color: #ff0000;
+}
+
+.text-info {
+  color: #00ffff;
+}
+
+.text-highlight {
+  color: #ff00ff;
+}
+
+/* 光標閃爍效果 */
 @keyframes blink {
-    to {
-        visibility: hidden;
-    }
-}
-
-/* 背景動畫 */
-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(
-        0deg,
-        rgba(0, 255, 0, 0.05) 0px,
-        rgba(0, 255, 0, 0.05) 1px,
-        transparent 1px,
-        transparent 3px
-    );
-    animation: glitch 1.5s infinite;
-}
-
-@keyframes glitch {
-    0% {
-        background-position: 0 0;
-    }
-    100% {
-        background-position: 0 -100%;
-    }
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
 }
