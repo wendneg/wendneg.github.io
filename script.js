@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("input");
   const cursor = document.getElementById("cursor");
 
-  // 打印打字機效果的文字
+  // 打字機效果：逐字顯示內容
   function typeText(contentArray, callback) {
     let i = 0;
     const line = document.createElement("div");
