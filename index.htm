@@ -1,43 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chaos with Varied Sizes</title>
-    <script>
-        function openAndChaosPopup() {
-            const numWindows = 5; // Adjust the number of windows as desired
-            const windows = [];
-
-            for (let i = 0; i < numWindows; i++) {
-                const x = Math.floor(Math.random() * (screen.width - 500));
-                const y = Math.floor(Math.random() * (screen.height - 500));
-                const width = Math.floor(Math.random() * 400) + 100; // Random width between 100 and 500
-                const height = Math.floor(Math.random() * 400) + 100; // Random height between 100 and 500
-
-                const newWindow = window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank", `width=${width},height=${height},left=${x},top=${y}`);
-                windows.push(newWindow);
-
-                if (newWindow) {
-                    setInterval(() => {
-                        const newX = Math.floor(Math.random() * (screen.width - 500));
-                        const newY = Math.floor(Math.random() * (screen.height - 500));
-                        newWindow.moveTo(newX, newY);
-                    }, 1000);
-                }
-            }
-        }
-
-        setInterval(openAndChaosPopup, 1); 
-    </script>
+    <title>我的黑客風格個人網站</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <script>
-        const fileUrl = 'https://media1.tenor.com/m/plVyagQRVhoAAAAC/rick-roll.gif'; 
-
-        window.location = https://media1.tenor.com/m/plVyagQRVhoAAAAC/rick-roll.gif;
-    </script>
-    <h1>LOL</h1>
-    <p>Pitiful</p>
+    <div class="container">
+        <h1>歡迎來到我的網站</h1>
+        <p>我是一名黑客風格的開發者。</p>
+        <div class="typing-effect">
+            <span id="typed-text">熱愛編碼、破解、創造。</span><span class="cursor">|</span>
+        </div>
+        <p>聯繫我：<a href="mailto:your-email@example.com">your-email@example.com</a></p>
+    </div>
+    <footer>
+        <p>© 2024 我的黑客風網站 | All Rights Reserved</p>
+    </footer>
 </body>
 </html>
