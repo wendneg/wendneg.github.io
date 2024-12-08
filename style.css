@@ -1,7 +1,7 @@
-/* 基本樣式設置 */
+/* 全局設置 */
 body {
   background-color: #000;
-  color: #fff;
+  color: #00ff00; /* 亮綠色文字 */
   font-family: 'Courier New', Courier, monospace;
   margin: 0;
   overflow: hidden;
@@ -22,34 +22,34 @@ body {
   word-wrap: break-word;
 }
 
+/* 提示符與輸入區域 */
 #input-container {
   display: flex;
   align-items: center;
-  height: 30px;
 }
 
 #prompt {
-  color: #5bc0de;
-  text-shadow: 0 0 8px #5bc0de;
+  color: #00ff00;
+  text-shadow: 0 0 10px #00ff00;
 }
 
 #input {
   background: transparent;
   border: none;
-  color: #fff;
+  color: #00ff00;
   outline: none;
   font-size: 18px;
   flex-grow: 1;
-  caret-color: transparent;
+  caret-color: transparent; /* 隱藏瀏覽器默認光標 */
 }
 
 #cursor {
-  width: 10px;
-  height: 22px;
-  background-color: #5bc0de;
+  width: 8px;
+  height: 20px;
+  background-color: #00ff00;
   margin-left: 5px;
   animation: blink 1s steps(1) infinite;
-  box-shadow: 0 0 12px #5bc0de;
+  box-shadow: 0 0 15px #00ff00;
 }
 
 @keyframes blink {
@@ -58,37 +58,40 @@ body {
   }
 }
 
-/* 文本樣式 */
+/* 各種文字效果 */
 .text-info {
   color: #5bc0de;
-  text-shadow: 0 0 8px #5bc0de;
-}
-
-.text-highlight {
-  color: #f0e68c;
-  text-shadow: 0 0 10px #f0e68c;
-}
-
-.text-error {
-  color: #ff4d4d;
-  text-shadow: 0 0 10px #ff4d4d;
+  text-shadow: 0 0 12px #5bc0de;
 }
 
 .text-warning {
   color: #ffa500;
-  text-shadow: 0 0 12px #ffa500;
+  text-shadow: 0 0 15px #ffa500;
+}
+
+.text-error {
+  color: #ff4d4d;
+  text-shadow: 0 0 15px #ff4d4d;
+}
+
+.text-highlight {
+  color: #ffeb3b;
+  text-shadow: 0 0 12px #ffeb3b;
+}
+
+.glow-green {
+  color: #00ff00;
+  text-shadow: 0 0 15px #00ff00;
 }
 
 .glow-blue {
-  text-shadow: 0 0 12px #5bc0de;
+  color: #5bc0de;
+  text-shadow: 0 0 15px #5bc0de;
 }
 
 .glow-red {
-  text-shadow: 0 0 12px #ff4d4d;
-}
-
-.glow-yellow {
-  text-shadow: 0 0 12px #ffeb3b;
+  color: #ff4d4d;
+  text-shadow: 0 0 15px #ff4d4d;
 }
 
 /* 滾動條樣式 */
