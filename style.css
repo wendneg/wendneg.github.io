@@ -40,22 +40,24 @@ body {
   flex-grow: 1;
 }
 
-#input-mirror {
-  visibility: hidden;
-  white-space: pre-wrap;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 18px;
-}
-
 #input {
   background: transparent;
   border: none;
-  color: transparent;
-  outline: none;
+  color: #00ff00;
+  font-family: 'Courier New', Courier, monospace;
   font-size: 18px;
-  caret-color: transparent;
+  outline: none;
+  caret-color: transparent; /* 隱藏原生光標 */
   position: absolute;
   left: 0;
+}
+
+#input-mirror {
+  white-space: pre-wrap;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 18px;
+  color: #00ff00;
+  visibility: hidden;
 }
 
 /* 自定義光標 */
