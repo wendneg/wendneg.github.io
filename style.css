@@ -60,6 +60,7 @@ body {
   animation: fade-blink 1s ease-in-out infinite;
   z-index: 2;
   pointer-events: none;
+  transition: left 0.1s ease;
 }
 
 /* 光暈效果 */
