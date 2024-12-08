@@ -6,7 +6,7 @@ const inputMirror = document.getElementById("input-mirror");
 
 // 更新光標位置
 function updateCursorPosition() {
-  inputMirror.textContent = input.value; // 同步輸入的文字到鏡像
+  inputMirror.textContent = input.value || "\u00a0"; // 如果沒有內容顯示空格，防止光標下移
   const inputMirrorRect = inputMirror.getBoundingClientRect();
   const containerRect = inputMirror.parentElement.getBoundingClientRect();
   cursor.style.left = `${inputMirrorRect.width}px`;
@@ -40,12 +40,13 @@ function processCommand(command) {
 『help』 - Show this help message
 『whoami』 - Display user information
 『url [link]』 - Open the specified URL
-『status』 - Display terminal status
+『system』 - Display system information
+『shutdown』 - Shut down the terminal
 『clear』 - Clear the terminal screen`,
       "glow-blue"
     );
   } else if (command === "whoami") {
-    fetch("https://ipinfo.io/json?token=YOUR_API_KEY") // 替換為您的 API 密鑰
+    fetch("https://api.ipify.org?format=json")
       .then((response) => response.json())
       .then((data) => {
         printOutput(
@@ -53,26 +54,33 @@ function processCommand(command) {
 Permission: [Visitor]
 Browser: ${navigator.userAgent}
 Device: ${navigator.platform}
-IP Address: ${data.ip}
-Location: ${data.city}, ${data.region}, ${data.country}`,
+IP Address: ${data.ip}`,
           "glow-green"
         );
       })
       .catch(() => {
-        printOutput("Unable to fetch IP or location information.", "text-error");
+        printOutput("Unable to fetch IP address.", "text-error");
       });
-  } else if (command.startsWith("url")) {
+  } else if (command === "url") {
     const url = command.split(" ")[1];
     if (url) {
       window.open(url.startsWith("http") ? url : `https://${url}`, "_blank");
     } else {
       printOutput("Invalid URL. Please provide a valid link.", "text-warning");
     }
-  } else if (command === "status") {
+  } else if (command === "system") {
     printOutput(
-      "Terminal is online and fully operational.\nPerformance: Good\nTheme: Dark mode",
+      `System Information:
+Owner: wendeng
+OS: ${navigator.platform}
+Hardware: ${navigator.hardwareConcurrency} Cores, ${navigator.deviceMemory || "Unknown"} GB RAM`,
       "glow-green"
     );
+  } else if (command === "shutdown") {
+    printOutput("Shutting down...", "text-error");
+    setTimeout(() => {
+      document.body.innerHTML = "<div style='text-align:center;color:#00ff00;'>System Shut Down.</div>";
+    }, 2000);
   } else if (command === "clear") {
     output.innerHTML = "";
   } else {
