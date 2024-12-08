@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         line.appendChild(span);
         output.scrollTop = output.scrollHeight;
         i++;
-        setTimeout(type, 150); // 打字速度調整為 150 毫秒
+        setTimeout(type, 150); // 打字速度
       } else if (callback) {
         callback();
       }
@@ -57,7 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let browserName = "Unknown";
     let browserVersion = "Unknown";
 
-    // 簡單匹配瀏覽器名稱和版本
     if (userAgent.includes("Chrome")) {
       browserName = "Chrome";
       browserVersion = userAgent.match(/Chrome\/([\d.]+)/)?.[1] || "Unknown";
@@ -75,7 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
       browserVersion = userAgent.match(/rv:([\d.]+)/)?.[1] || "Unknown";
     }
 
-    // 判斷裝置名稱
     const isMobile = /Mobi|Android/i.test(userAgent);
     const deviceName = isMobile ? "Mobile" : "Desktop";
 
@@ -95,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
       case "help":
         typeText([
           { text: "Available commands: ", style: "text-system" },
-          { text: "help, whoami, url, status, clear", style: "text-highlight" },
+          { text: "help, whoami, url, status, clear", style: "text-highlight help-glow" },
         ]);
         break;
       case "whoami":
@@ -104,9 +102,9 @@ document.addEventListener("DOMContentLoaded", () => {
           getUserLocation((location) => {
             typeText([
               { text: "User Information:", style: "text-info" },
-              { text: `\nUsername: Anonymous`, style: "text-system" },
-              { text: `\nPermission: visitor`, style: "text-system" },
-              { text: `\nIP Address: ${ip}`, style: "text-system" },
+              { text: `\nUsername: Anonymous`, style: "text-highlight" },
+              { text: `\nPermission: [visitor]`, style: "text-error glow-red" },
+              { text: `\nIP Address: ${ip}`, style: "text-info glow-blue" },
               { text: `\nLocation: ${location}`, style: "text-system" },
               { text: `\nBrowser: ${browserName} ${browserVersion}`, style: "text-system" },
               { text: `\nOperating System: ${platform}`, style: "text-system" },
@@ -119,16 +117,16 @@ document.addEventListener("DOMContentLoaded", () => {
         if (args.length > 1) {
           let url = args[1];
           if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "https://" + url; // 自動補全協議
+            url = "https://" + url;
           }
           if (isValidURL(url)) {
             window.open(url, "_blank");
             typeText([{ text: `Opening URL: ${url}`, style: "text-highlight" }]);
           } else {
-            typeText([{ text: `Invalid URL: ${url}`, style: "text-error" }]);
+            typeText([{ text: `Invalid URL format`, style: "text-warning glow-yellow" }]);
           }
         } else {
-          typeText([{ text: "Usage: url [link]", style: "text-error" }]);
+          typeText([{ text: "Usage: url [link]", style: "text-warning glow-yellow" }]);
         }
         break;
       case "status":
@@ -145,13 +143,12 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
       default:
         typeText([
-          { text: `Unknown command: `, style: "text-error" },
+          { text: `[⚠️warning] Unknown command: `, style: "text-warning glow-red" },
           { text: `"${mainCommand}"`, style: "text-highlight" },
         ]);
     }
   }
 
-  // 檢查是否為有效 URL
   function isValidURL(string) {
     try {
       new URL(string);
@@ -161,24 +158,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 初始化終端
   function initializeTerminal() {
     typeText(
       [
         { text: "Welcome to the Interactive Terminal!", style: "text-system" },
-        { text: "\nType 'help' to see available commands.", style: "text-system" },
+        { text: "\nType 'help' to see available commands.", style: "text-highlight help-glow" },
       ],
       () => input.focus()
     );
   }
 
-  // 光標跟隨文字動態移動
   input.addEventListener("input", () => {
     const textWidth = getTextWidth(input.value, window.getComputedStyle(input));
     cursor.style.left = `${textWidth}px`;
   });
 
-  // 計算文本寬度
   function getTextWidth(text, style) {
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
@@ -186,7 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return context.measureText(text).width;
   }
 
-  // 處理輸入命令
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       const command = input.value.trim();
@@ -198,10 +191,9 @@ document.addEventListener("DOMContentLoaded", () => {
         handleCommand(command);
       }
       input.value = "";
-      cursor.style.left = "0"; // 重置光標位置
+      cursor.style.left = "0";
     }
   });
 
-  // 啟動終端
   initializeTerminal();
 });
