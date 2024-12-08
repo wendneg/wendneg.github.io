@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("input");
   const cursor = document.getElementById("cursor");
 
-  // 打字機效果：逐字顯示內容
+  // 打字機效果
   function typeText(contentArray, callback) {
     let i = 0;
     const line = document.createElement("div");
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         line.appendChild(span);
         output.scrollTop = output.scrollHeight;
         i++;
-        setTimeout(type, 50); // 調整速度
+        setTimeout(type, 50); // 控制打字速度
       } else if (callback) {
         callback();
       }
@@ -34,19 +34,99 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch(() => callback("Unable to fetch IP"));
   }
 
+  // 獲取用戶地理位置
+  function getUserLocation(callback) {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const coords = position.coords;
+          callback(`${coords.latitude.toFixed(5)}, ${coords.longitude.toFixed(5)}`);
+        },
+        () => callback("Unable to fetch location")
+      );
+    } else {
+      callback("Geolocation not supported");
+    }
+  }
+
+  // 獲取瀏覽器和設備資訊
+  function getBrowserInfo() {
+    const userAgent = navigator.userAgent;
+    const platform = navigator.platform;
+
+    let browserName = "Unknown";
+    let browserVersion = "Unknown";
+
+    // 簡單匹配瀏覽器名稱和版本
+    if (userAgent.includes("Chrome")) {
+      browserName = "Chrome";
+      browserVersion = userAgent.match(/Chrome\/([\d.]+)/)?.[1] || "Unknown";
+    } else if (userAgent.includes("Firefox")) {
+      browserName = "Firefox";
+      browserVersion = userAgent.match(/Firefox\/([\d.]+)/)?.[1] || "Unknown";
+    } else if (userAgent.includes("Safari") && !userAgent.includes("Chrome")) {
+      browserName = "Safari";
+      browserVersion = userAgent.match(/Version\/([\d.]+)/)?.[1] || "Unknown";
+    } else if (userAgent.includes("Edge")) {
+      browserName = "Edge";
+      browserVersion = userAgent.match(/Edg\/([\d.]+)/)?.[1] || "Unknown";
+    } else if (userAgent.includes("Trident")) {
+      browserName = "Internet Explorer";
+      browserVersion = userAgent.match(/rv:([\d.]+)/)?.[1] || "Unknown";
+    }
+
+    // 判斷裝置名稱
+    const isMobile = /Mobi|Android/i.test(userAgent);
+    const deviceName = isMobile ? "Mobile" : "Desktop";
+
+    return {
+      browserName,
+      browserVersion,
+      platform,
+      deviceName,
+    };
+  }
+
   // 處理指令
   function handleCommand(command) {
-    switch (command) {
+    const args = command.split(" ");
+    const mainCommand = args[0];
+    switch (mainCommand) {
       case "help":
         typeText([
           { text: "Available commands: ", style: "text-system" },
-          { text: "help, ip, status, clear", style: "text-highlight" },
+          { text: "help, whoami, url, status, clear", style: "text-highlight" },
         ]);
         break;
-      case "ip":
+      case "whoami":
+        const { browserName, browserVersion, platform, deviceName } = getBrowserInfo();
         getUserIP((ip) => {
-          typeText([{ text: `Your IP address is: ${ip}`, style: "text-info" }]);
+          getUserLocation((location) => {
+            typeText([
+              { text: "User Information:", style: "text-info" },
+              { text: `\nUsername: Anonymous`, style: "text-system" },
+              { text: `\nPermission: visitor`, style: "text-system" },
+              { text: `\nIP Address: ${ip}`, style: "text-system" },
+              { text: `\nLocation: ${location}`, style: "text-system" },
+              { text: `\nBrowser: ${browserName} ${browserVersion}`, style: "text-system" },
+              { text: `\nOperating System: ${platform}`, style: "text-system" },
+              { text: `\nDevice: ${deviceName}`, style: "text-system" },
+            ]);
+          });
         });
+        break;
+      case "url":
+        if (args.length > 1) {
+          const url = args[1];
+          if (isValidURL(url)) {
+            window.open(url, "_blank");
+            typeText([{ text: `Opening URL: ${url}`, style: "text-highlight" }]);
+          } else {
+            typeText([{ text: `Invalid URL: ${url}`, style: "text-error" }]);
+          }
+        } else {
+          typeText([{ text: "Usage: url [link]", style: "text-error" }]);
+        }
         break;
       case "status":
         const memoryUsage = (Math.random() * 50 + 50).toFixed(2);
@@ -63,8 +143,18 @@ document.addEventListener("DOMContentLoaded", () => {
       default:
         typeText([
           { text: `Unknown command: `, style: "text-error" },
-          { text: `"${command}"`, style: "text-highlight" },
+          { text: `"${mainCommand}"`, style: "text-highlight" },
         ]);
+    }
+  }
+
+  // 檢查是否為有效 URL
+  function isValidURL(string) {
+    try {
+      new URL(string);
+      return true;
+    } catch (_) {
+      return false;
     }
   }
 
@@ -79,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  // 動態更新光標位置
+  // 光標跟隨文字動態移動
   input.addEventListener("input", () => {
     const textWidth = getTextWidth(input.value, window.getComputedStyle(input));
     cursor.style.left = `${textWidth}px`;
