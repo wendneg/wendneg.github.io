@@ -6,7 +6,7 @@ const inputMirror = document.getElementById("input-mirror");
 
 // 更新光標位置
 function updateCursorPosition() {
-  inputMirror.textContent = input.value; // 同步輸入文字到鏡像
+  inputMirror.textContent = input.value; // 同步輸入的文字到鏡像
   const inputMirrorRect = inputMirror.getBoundingClientRect();
   const containerRect = inputMirror.parentElement.getBoundingClientRect();
   cursor.style.left = `${inputMirrorRect.width}px`;
@@ -37,17 +37,17 @@ function processCommand(command) {
   if (command === "help") {
     printOutput(
       `Available commands:
-      『help』 - Show this help message
-      『whoami』 - Display user information
-      『url [link]』 - Open the specified URL
-      『status』 - Display terminal status
-      『clear』 - Clear the terminal screen`,
+『help』 - Show this help message
+『whoami』 - Display user information
+『url [link]』 - Open the specified URL
+『status』 - Display terminal status
+『clear』 - Clear the terminal screen`,
       "glow-blue"
     );
   } else if (command === "whoami") {
-    fetch("https://ipinfo.io/json?token=d982203e4bb88c") // 請替換為你自己的 IP API 密鑰
-      .then(response => response.json())
-      .then(data => {
+    fetch("https://ipinfo.io/json?token=YOUR_API_KEY") // 替換為您的 API 密鑰
+      .then((response) => response.json())
+      .then((data) => {
         printOutput(
           `Username: Anonymous
 Permission: [Visitor]
@@ -58,11 +58,8 @@ Location: ${data.city}, ${data.region}, ${data.country}`,
           "glow-green"
         );
       })
-      .catch(error => {
-        printOutput(
-          `Unable to fetch IP address or location information.`,
-          "text-error"
-        );
+      .catch(() => {
+        printOutput("Unable to fetch IP or location information.", "text-error");
       });
   } else if (command.startsWith("url")) {
     const url = command.split(" ")[1];
@@ -87,7 +84,7 @@ Location: ${data.city}, ${data.region}, ${data.country}`,
 function printOutput(message, className = "text-info") {
   const line = document.createElement("div");
   line.className = className;
-  line.innerHTML = message.replace(/『(.*?)』/g, '<span class="glow-yellow">$1</span>'); // 特殊命令高亮
+  line.innerHTML = message.replace(/『(.*?)』/g, '<span class="glow-yellow">$1</span>');
   output.appendChild(line);
-  output.scrollTop = output.scrollHeight; // 自動捲到底部
+  output.scrollTop = output.scrollHeight;
 }
