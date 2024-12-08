@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         line.appendChild(span);
         output.scrollTop = output.scrollHeight;
         i++;
-        setTimeout(type, 50); // 控制打字速度
+        setTimeout(type, 150); // 打字速度調整為 150 毫秒
       } else if (callback) {
         callback();
       }
@@ -117,7 +117,10 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
       case "url":
         if (args.length > 1) {
-          const url = args[1];
+          let url = args[1];
+          if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "https://" + url; // 自動補全協議
+          }
           if (isValidURL(url)) {
             window.open(url, "_blank");
             typeText([{ text: `Opening URL: ${url}`, style: "text-highlight" }]);
