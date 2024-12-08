@@ -77,7 +77,8 @@ body {
 }
 
 .help-glow {
-  text-shadow: 0 0 12px purple;
+  color: purple;
+  text-shadow: 0 0 15px purple;
 }
 
 .glow-blue {
