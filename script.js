@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         line.appendChild(span);
         output.scrollTop = output.scrollHeight;
         i++;
-        setTimeout(type, 100); // 放慢速度到 100ms
+        setTimeout(type, 150); // 放慢速度到 150ms
       } else if (callback) {
         callback();
       }
@@ -37,8 +37,17 @@ document.addEventListener("DOMContentLoaded", () => {
           { text: "help, whoami, url, status, clear", style: "help-glow" },
         ]);
         break;
-      case "clear":
-        output.innerHTML = "";
+      case "whoami":
+        typeText([
+          { text: "Username: ", style: "text-info" },
+          { text: "Anonymous", style: "text-highlight" },
+          { text: "\nPermission: ", style: "text-info" },
+          { text: "[Visitor]", style: "glow-red" },
+          { text: "\nIP Address: ", style: "text-info" },
+          { text: "192.168.1.1", style: "glow-blue" },
+          { text: "\nDevice: ", style: "text-info" },
+          { text: "Windows 10, Chrome", style: "glow-yellow" },
+        ]);
         break;
       case "url":
         if (args.length > 1) {
@@ -55,6 +64,9 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           typeText([{ text: "Usage: url [link]", style: "text-warning glow-yellow" }]);
         }
+        break;
+      case "clear":
+        output.innerHTML = "";
         break;
       default:
         typeText([
@@ -90,3 +102,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initializeTerminal();
 });
+
+function isValidURL(url) {
+  const pattern = new RegExp(
+    "^(https?:\\/\\/)?([a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}|[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})(:[0-9]{1,5})?(\\/.*)?$",
+    "i"
+  );
+  return pattern.test(url);
+}
