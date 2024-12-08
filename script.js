@@ -1,112 +1,80 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const output = document.getElementById("output");
-  const input = document.getElementById("input");
-  const cursor = document.getElementById("cursor");
+// 選取 DOM 元素
+const output = document.getElementById("output");
+const input = document.getElementById("input");
+const cursor = document.getElementById("cursor");
 
-  // 打字機效果
-  function typeText(contentArray, callback) {
-    let i = 0;
-    const line = document.createElement("div");
-    output.appendChild(line);
+// 更新光標位置
+function updateCursorPosition() {
+  const inputWidth = input.value.length * 8; // 每字符約占 8px
+  cursor.style.transform = `translateX(${inputWidth}px)`;
+}
 
-    function type() {
-      if (i < contentArray.length) {
-        const { text, style } = contentArray[i];
-        const span = document.createElement("span");
-        span.textContent = text;
-        span.className = style;
-        line.appendChild(span);
-        output.scrollTop = output.scrollHeight;
-        i++;
-        setTimeout(type, 150); // 放慢速度到 150ms
-      } else if (callback) {
-        callback();
-      }
-    }
-    type();
+// 處理用戶輸入
+input.addEventListener("input", updateCursorPosition);
+
+// 模擬命令執行
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    const command = input.value.trim();
+    processCommand(command);
+    input.value = ""; // 清空輸入框
+    updateCursorPosition(); // 重置光標位置
   }
-
-  function handleCommand(command) {
-    const args = command.split(" ");
-    const mainCommand = args[0];
-
-    switch (mainCommand) {
-      case "help":
-        typeText([
-          { text: "Available commands: ", style: "text-info" },
-          { text: "help, whoami, url, status, clear", style: "help-glow" },
-        ]);
-        break;
-      case "whoami":
-        typeText([
-          { text: "Username: ", style: "text-info" },
-          { text: "Anonymous", style: "text-highlight" },
-          { text: "\nPermission: ", style: "text-info" },
-          { text: "[Visitor]", style: "glow-red" },
-          { text: "\nIP Address: ", style: "text-info" },
-          { text: "192.168.1.1", style: "glow-blue" },
-          { text: "\nDevice: ", style: "text-info" },
-          { text: "Windows 10, Chrome", style: "glow-yellow" },
-        ]);
-        break;
-      case "url":
-        if (args.length > 1) {
-          let url = args[1];
-          if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "https://" + url;
-          }
-          if (isValidURL(url)) {
-            window.open(url, "_blank");
-            typeText([{ text: `Opening URL: ${url}`, style: "text-highlight" }]);
-          } else {
-            typeText([{ text: "Invalid URL format", style: "text-warning glow-yellow" }]);
-          }
-        } else {
-          typeText([{ text: "Usage: url [link]", style: "text-warning glow-yellow" }]);
-        }
-        break;
-      case "clear":
-        output.innerHTML = "";
-        break;
-      default:
-        typeText([
-          { text: "[⚠️warning] Unknown command: ", style: "text-error" },
-          { text: `"${mainCommand}"`, style: "text-highlight" },
-        ]);
-    }
-  }
-
-  function initializeTerminal() {
-    typeText(
-      [
-        { text: "Welcome to the Interactive Terminal!", style: "text-info" },
-        { text: "\nType 'help' to see available commands.", style: "help-glow" },
-      ],
-      () => input.focus()
-    );
-  }
-
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      const command = input.value.trim();
-      if (command) {
-        typeText([
-          { text: "C:\\Users\\Anonymous> ", style: "text-info" },
-          { text: command, style: "text-highlight" },
-        ]);
-        handleCommand(command);
-      }
-      input.value = "";
-    }
-  });
-
-  initializeTerminal();
 });
 
-function isValidURL(url) {
-  const pattern = new RegExp(
-    "^(https?:\\/\\/)?([a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}|[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})(:[0-9]{1,5})?(\\/.*)?$",
-    "i"
-  );
-  return pattern.test(url);
+// 初始顯示
+printOutput(
+  "Welcome to the Interactive Terminal!\nType 'help' to see available commands.",
+  "glow-green"
+);
+
+// 處理命令
+function processCommand(command) {
+  if (command === "help") {
+    printOutput(
+      "Available commands:\n" +
+        "help - Show this help message\n" +
+        "whoami - Display user information\n" +
+        "url [link] - Open the specified URL\n" +
+        "status - Display terminal status\n" +
+        "clear - Clear the terminal screen\n",
+      "glow-blue"
+    );
+  } else if (command === "whoami") {
+    printOutput(
+      "Username: Anonymous\n" +
+        "Permission: [Visitor]\n" +
+        "Browser: " + navigator.userAgent + "\n" +
+        "Device: " + navigator.platform + "\n" +
+        "IP Address: Not available (requires server support)",
+      "glow-green"
+    );
+  } else if (command.startsWith("url")) {
+    const url = command.split(" ")[1];
+    if (url) {
+      window.open(url.startsWith("http") ? url : `https://${url}`, "_blank");
+    } else {
+      printOutput("Invalid URL. Please provide a valid link.", "text-warning");
+    }
+  } else if (command === "status") {
+    printOutput(
+      "Terminal is online and fully operational.\n" +
+        "Performance: Good\n" +
+        "Theme: Dark mode",
+      "glow-green"
+    );
+  } else if (command === "clear") {
+    output.innerHTML = "";
+  } else {
+    printOutput(`[⚠️warning] Command not found: ${command}`, "text-error");
+  }
+}
+
+// 輸出訊息
+function printOutput(message, className = "text-info") {
+  const line = document.createElement("div");
+  line.className = className;
+  line.textContent = message;
+  output.appendChild(line);
+  output.scrollTop = output.scrollHeight; // 自動捲到底部
 }
