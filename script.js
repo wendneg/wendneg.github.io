@@ -2,11 +2,15 @@
 const output = document.getElementById("output");
 const input = document.getElementById("input");
 const cursor = document.getElementById("cursor");
+const inputMirror = document.getElementById("input-mirror");
 
 // 更新光標位置
 function updateCursorPosition() {
-  const inputWidth = input.value.length * 8; // 每字符約占 8px
-  cursor.style.transform = `translateX(${inputWidth}px)`;
+  inputMirror.textContent = input.value; // 同步輸入文字到鏡像
+  const inputMirrorRect = inputMirror.getBoundingClientRect();
+  const containerRect = inputMirror.parentElement.getBoundingClientRect();
+  cursor.style.left = `${inputMirrorRect.width}px`;
+  cursor.style.top = `${inputMirrorRect.top - containerRect.top}px`;
 }
 
 // 處理用戶輸入
@@ -32,23 +36,34 @@ printOutput(
 function processCommand(command) {
   if (command === "help") {
     printOutput(
-      "Available commands:\n" +
-        "help - Show this help message\n" +
-        "whoami - Display user information\n" +
-        "url [link] - Open the specified URL\n" +
-        "status - Display terminal status\n" +
-        "clear - Clear the terminal screen\n",
+      `Available commands:
+      『help』 - Show this help message
+      『whoami』 - Display user information
+      『url [link]』 - Open the specified URL
+      『status』 - Display terminal status
+      『clear』 - Clear the terminal screen`,
       "glow-blue"
     );
   } else if (command === "whoami") {
-    printOutput(
-      "Username: Anonymous\n" +
-        "Permission: [Visitor]\n" +
-        "Browser: " + navigator.userAgent + "\n" +
-        "Device: " + navigator.platform + "\n" +
-        "IP Address: Not available (requires server support)",
-      "glow-green"
-    );
+    fetch("https://ipinfo.io/json?token=YOUR_API_KEY") // 請替換為你自己的 IP API 密鑰
+      .then(response => response.json())
+      .then(data => {
+        printOutput(
+          `Username: Anonymous
+Permission: [Visitor]
+Browser: ${navigator.userAgent}
+Device: ${navigator.platform}
+IP Address: ${data.ip}
+Location: ${data.city}, ${data.region}, ${data.country}`,
+          "glow-green"
+        );
+      })
+      .catch(error => {
+        printOutput(
+          `Unable to fetch IP address or location information.`,
+          "text-error"
+        );
+      });
   } else if (command.startsWith("url")) {
     const url = command.split(" ")[1];
     if (url) {
@@ -58,9 +73,7 @@ function processCommand(command) {
     }
   } else if (command === "status") {
     printOutput(
-      "Terminal is online and fully operational.\n" +
-        "Performance: Good\n" +
-        "Theme: Dark mode",
+      "Terminal is online and fully operational.\nPerformance: Good\nTheme: Dark mode",
       "glow-green"
     );
   } else if (command === "clear") {
@@ -74,7 +87,7 @@ function processCommand(command) {
 function printOutput(message, className = "text-info") {
   const line = document.createElement("div");
   line.className = className;
-  line.textContent = message;
+  line.innerHTML = message.replace(/『(.*?)』/g, '<span class="glow-yellow">$1</span>'); // 特殊命令高亮
   output.appendChild(line);
   output.scrollTop = output.scrollHeight; // 自動捲到底部
 }
