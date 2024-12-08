@@ -45,7 +45,7 @@ function processCommand(command) {
       "glow-blue"
     );
   } else if (command === "whoami") {
-    fetch("https://ipinfo.io/json?token=YOUR_API_KEY") // 請替換為你自己的 IP API 密鑰
+    fetch("https://ipinfo.io/json?token=d982203e4bb88c") // 請替換為你自己的 IP API 密鑰
       .then(response => response.json())
       .then(data => {
         printOutput(
