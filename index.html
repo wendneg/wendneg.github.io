@@ -8,11 +8,14 @@
 </head>
 <body>
   <div id="terminal">
-    <div id="output"></div> <!-- 終端輸出區域 -->
+    <div id="output"></div>
     <div id="input-container">
-      <span id="prompt">C:\Users\Anonymous> </span> <!-- 提示符 -->
-      <input id="input" type="text" autocomplete="off" spellcheck="false" />
-      <div id="cursor"></div> <!-- 光標 -->
+      <span id="prompt">C:\Users\Anonymous> </span>
+      <div id="input-wrapper">
+        <span id="input-mirror"></span>
+        <input id="input" type="text" autocomplete="off" spellcheck="false" />
+        <div id="cursor"></div>
+      </div>
     </div>
   </div>
   <script src="script.js"></script>
