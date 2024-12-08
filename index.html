@@ -4,19 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Interactive Terminal</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css"> <!-- 確保這裡是指向 style.css -->
 </head>
 <body>
   <div id="terminal">
-    <div id="output"></div>
-    <div id="input-line">
-      <span id="prompt">C:\Users\Anonymous&gt;</span>
-      <div id="input-container">
-        <input type="text" id="input" autofocus>
-        <div id="cursor"></div>
-      </div>
+    <div id="output"></div> <!-- 顯示終端輸出 -->
+    <div id="input-container">
+      <span id="prompt">C:\Users\Anonymous> </span> <!-- 提示符 -->
+      <input id="input" type="text" autocomplete="off" /> <!-- 用戶輸入框 -->
+      <div id="cursor"></div> <!-- 輸入框的光標 -->
     </div>
   </div>
-  <script src="script.js"></script>
+  <script src="script.js"></script> <!-- 確保這裡正確引用 JavaScript -->
 </body>
 </html>
