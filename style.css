@@ -1,4 +1,4 @@
-/* 基礎樣式 */
+/* 基本樣式設置 */
 body {
   background-color: #000;
   color: #fff;
@@ -28,8 +28,7 @@ body {
   height: 30px;
 }
 
-#input-container::before {
-  content: "C:\\Users\\Anonymous> ";
+#prompt {
   color: #5bc0de;
   text-shadow: 0 0 8px #5bc0de;
 }
@@ -53,7 +52,6 @@ body {
   box-shadow: 0 0 12px #5bc0de;
 }
 
-/* 動畫效果 */
 @keyframes blink {
   50% {
     opacity: 0;
@@ -76,9 +74,9 @@ body {
   text-shadow: 0 0 10px #ff4d4d;
 }
 
-.help-glow {
-  color: purple;
-  text-shadow: 0 0 15px purple;
+.text-warning {
+  color: #ffa500;
+  text-shadow: 0 0 12px #ffa500;
 }
 
 .glow-blue {
@@ -91,11 +89,6 @@ body {
 
 .glow-yellow {
   text-shadow: 0 0 12px #ffeb3b;
-}
-
-.text-warning {
-  color: #ffa500;
-  text-shadow: 0 0 12px #ffa500;
 }
 
 /* 滾動條樣式 */
