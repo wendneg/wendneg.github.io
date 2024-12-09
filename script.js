@@ -34,6 +34,8 @@ printOutput(
 
 // 處理命令
 function processCommand(command) {
+  const outputArea = document.getElementById("output");
+
   if (command === "help") {
     printOutput(
       `Available commands:
@@ -85,7 +87,7 @@ Hardware: ${navigator.hardwareConcurrency} Cores, ${navigator.deviceMemory || "U
       document.body.innerHTML = "<div style='text-align:center;color:#00ff00;'>System Shut Down.</div>";
     }, 2000);
   } else if (command === "clear") {
-    output.innerHTML = "";
+    outputArea.innerHTML = "";
   } else {
     printOutput(`[⚠️warning] Command not found: ${command}`, "text-error");
   }
@@ -96,6 +98,17 @@ function isValidURL(url) {
   const urlPattern = /^(https?:\/\/)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/\S*)?$/;
   return urlPattern.test(url);
 }
+
+// 輸出打印的輔助函數
+function printOutput(message, className) {
+  const outputArea = document.getElementById("output");
+  const line = document.createElement("div");
+  line.className = className || "text-default";
+  line.innerHTML = message;
+  outputArea.appendChild(line);
+  outputArea.scrollTop = outputArea.scrollHeight; // 滾動到最新輸出
+}
+
 
 // 輸出訊息
 function printOutput(message, className = "text-info") {
