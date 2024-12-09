@@ -1,3 +1,38 @@
+// 選取 DOM 元素
+const output = document.getElementById("output");
+const input = document.getElementById("input");
+const cursor = document.getElementById("cursor");
+const inputMirror = document.getElementById("input-mirror");
+
+// 更新光標位置
+function updateCursorPosition() {
+  inputMirror.textContent = input.value || "\u00a0"; // 如果沒有內容顯示空格，防止光標下移
+  const inputMirrorRect = inputMirror.getBoundingClientRect();
+  const containerRect = inputMirror.parentElement.getBoundingClientRect();
+  cursor.style.left = `${inputMirrorRect.width}px`;
+  cursor.style.top = `${inputMirrorRect.top - containerRect.top}px`;
+}
+
+// 處理用戶輸入
+input.addEventListener("input", updateCursorPosition);
+
+// 模擬命令執行
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    const command = input.value.trim();
+    processCommand(command);
+    input.value = ""; // 清空輸入框
+    updateCursorPosition(); // 重置光標位置
+  }
+});
+
+// 初始顯示
+printOutput(
+  "Welcome to the Interactive Terminal!\nType 'help' to see available commands.",
+  "glow-green"
+);
+
+// 處理命令
 function processCommand(command) {
   if (command === "help") {
     printOutput(
@@ -53,4 +88,13 @@ Hardware: ${navigator.hardwareConcurrency} Cores, ${navigator.deviceMemory || "U
   } else {
     printOutput(`[⚠️warning] Command not found: ${command}`, "text-error");
   }
+}
+
+// 輸出訊息
+function printOutput(message, className = "text-info") {
+  const line = document.createElement("div");
+  line.className = className;
+  line.innerHTML = message.replace(/『(.*?)』/g, '<span class="glow-yellow">$1</span>');
+  output.appendChild(line);
+  output.scrollTop = output.scrollHeight;
 }
