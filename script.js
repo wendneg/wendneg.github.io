@@ -61,14 +61,15 @@ IP Address: ${data.ip}`,
       .catch(() => {
         printOutput("Unable to fetch IP address.", "text-error");
       });
-  } else if (command.startsWith("url ")) {
-    const url = command.slice(4).trim();
-    if (url) {
+  } else if (command.startsWith("url")) {
+    const parts = command.split(" ");
+    if (parts.length !== 2 || !isValidURL(parts[1])) {
+      printOutput("Invalid URL. Please provide a valid link.", "text-warning");
+    } else {
+      const url = parts[1];
       const fullUrl = url.startsWith("http://") || url.startsWith("https://") ? url : `https://${url}`;
       window.open(fullUrl, "_blank");
       printOutput(`Opening URL: ${fullUrl}`, "glow-green");
-    } else {
-      printOutput("Invalid URL. Please provide a valid link.", "text-warning");
     }
   } else if (command === "system") {
     printOutput(
@@ -88,6 +89,12 @@ Hardware: ${navigator.hardwareConcurrency} Cores, ${navigator.deviceMemory || "U
   } else {
     printOutput(`[⚠️warning] Command not found: ${command}`, "text-error");
   }
+}
+
+// 檢查 URL 是否有效的輔助函數
+function isValidURL(url) {
+  const urlPattern = /^(https?:\/\/)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/\S*)?$/;
+  return urlPattern.test(url);
 }
 
 // 輸出訊息
