@@ -106,3 +106,27 @@ body {
   color: #ffa500;
   text-shadow: 0 0 15px #ffa500;
 }
+.glow-blue {
+  color: #00ccff;
+  text-shadow: 0 0 10px #00ccff;
+}
+
+.glow-green {
+  color: #00ff00;
+  text-shadow: 0 0 10px #00ff00;
+}
+
+.glow-yellow {
+  color: #ffff00;
+  text-shadow: 0 0 10px #ffff00;
+}
+
+.glow-orange {
+  color: #ff9900;
+  text-shadow: 0 0 12px #ff9900;
+}
+
+.glow-red {
+  color: #ff4444;
+  text-shadow: 0 0 12px #ff4444;
+}
