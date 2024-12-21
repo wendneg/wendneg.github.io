@@ -20,7 +20,7 @@ input.addEventListener("input", updateCursorPosition);
 // 模擬命令執行
 input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    const command = input.value.trim();
+    const command = input.value.trim().toLowerCase(); // 確保命令大小寫一致
     processCommand(command);
     input.value = ""; // 清空輸入框
     updateCursorPosition(); // 重置光標位置
@@ -108,25 +108,30 @@ Hardware: ${navigator.hardwareConcurrency} Cores, ${navigator.deviceMemory || "U
       return;
     }
 
-    if (file.toUpperCase() === "DATA.csv") {
-      printOutput(
-        `Name: <span class="glow-yellow">Wendeng</span>\nPermission: <span class="glow-red">Admin</span>\nRole: Creator and Owner of this Website.`,
-        "glow-green"
-      );
-    } else if (file.toUpperCase() === "SECRET.txt") {
-      if (!secretUnlocked) {
-        printOutput("Access denied. Use 'unblock [password]' to unlock.", "text-warning");
-      } else {
-        printOutput("SECRET.txt fuckyou", "glow-green");
-      }
-    } else if (file.toUpperCase() === "RUN.bat") {
-      printOutput("Executing program...", "glow-green");
-      setTimeout(() => {
-        window.open("https://github.com/wendneg/wendneg.github.io/tree/main", "_blank");
-        printOutput("Run successful. Redirecting...", "glow-green");
-      }, 5000);
-    } else {
-      printOutput(`[⚠️warning] File not found: ${file}`, "text-error");
+    switch (file.toLowerCase()) {
+      case "data.csv":
+        printOutput(
+          `Name: <span class="glow-yellow">Wendeng</span>\nPermission: <span class="glow-red">Admin</span>\nRole: Creator and Owner of this Website.`,
+          "glow-green"
+        );
+        break;
+      case "secret.txt":
+        if (!secretUnlocked) {
+          printOutput("Access denied. Use 'unblock [password]' to unlock.", "text-warning");
+        } else {
+          printOutput("NEVER GONNA GIVE YOU UP~~~", "glow-green");
+        }
+        break;
+      case "run.bat":
+        printOutput("Executing program...", "glow-green");
+        setTimeout(() => {
+          window.open("https://github.com/wendneg/wendneg.github.io/tree/main", "_blank");
+          printOutput("Run successful. Redirecting...", "glow-green");
+        }, 5000);
+        break;
+      default:
+        printOutput(`[⚠️warning] File not found: ${file}`, "text-error");
+        break;
     }
   } else if (command.startsWith("unblock")) {
     const code = command.split(" ")[1];
