@@ -133,7 +133,7 @@ Hardware: ${navigator.hardwareConcurrency} Cores, ${navigator.deviceMemory || "U
     if (code === "864000") {
       secretUnlocked = true;
       printOutput(
-        "File 'SECRET.TXT' successfully unlocked. Use 'start SECRET.TXT' to access the contents.",
+        "File 'SECRET.txt' successfully unlocked. Use 'start SECRET.txt' to access the contents.",
         "glow-green"
       );
     } else {
