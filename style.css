@@ -1,10 +1,10 @@
+/* 全局設置 */
 body {
-  margin: 0;
-  background: #000;
+  background-color: #000;
   color: #00ff00;
-  font-family: "Courier New", monospace;
-  font-size: 20px;
-  line-height: 1.6;
+  font-family: 'Courier New', Courier, monospace;
+  margin: 0;
+  overflow: hidden;
 }
 
 #terminal {
@@ -12,27 +12,28 @@ body {
   flex-direction: column;
   height: 100vh;
   padding: 20px;
-  overflow: hidden;
+  box-sizing: border-box;
 }
 
 #output {
   flex-grow: 1;
   overflow-y: auto;
   white-space: pre-wrap;
-  margin-bottom: 10px;
+  word-wrap: break-word;
 }
 
-#input-line {
+/* 提示符與輸入區域 */
+#input-container {
   display: flex;
   align-items: center;
 }
 
 #prompt {
   color: #00ff00;
-  margin-right: 5px;
+  text-shadow: 0 0 10px #00ff00;
 }
 
-#input-container {
+#input-wrapper {
   display: flex;
   align-items: center;
   position: relative;
@@ -40,51 +41,68 @@ body {
 }
 
 #input {
-  background: none;
+  background: transparent;
   border: none;
   color: #00ff00;
-  font-family: inherit;
-  font-size: inherit;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 18px;
   outline: none;
-  caret-color: transparent; /* 隱藏內建光標 */
+  caret-color: transparent; /* 隱藏原生光標 */
   position: absolute;
-  width: 100%;
-  z-index: 1;
+  left: 0;
 }
 
-#cursor {
-  position: absolute;
-  height: 1.2em; /* 光標高度與行高一致 */
-  width: 2px; /* 光標寬度 */
-  background: #00ff00; /* 光標顏色 */
-  animation: blink 1s step-end infinite;
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* 不同文字顏色 */
-.text-system {
+#input-mirror {
+  white-space: pre-wrap;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 18px;
   color: #00ff00;
+  visibility: hidden;
+}
+
+/* 自定義光標 */
+#cursor {
+  width: 8px;
+  height: 20px;
+  background-color: #00ff00;
+  animation: blink 1s steps(1) infinite;
+  box-shadow: 0 0 15px #00ff00;
+  position: absolute;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* 光暈效果和不同的文字樣式 */
+.glow-green {
+  color: #00ff00;
+  text-shadow: 0 0 15px #00ff00;
+}
+
+.glow-blue {
+  color: #5bc0de;
+  text-shadow: 0 0 15px #5bc0de;
+}
+
+.glow-yellow {
+  color: #ffeb3b;
+  text-shadow: 0 0 15px #ffeb3b;
+}
+
+.glow-red {
+  color: #ff4d4d;
+  text-shadow: 0 0 15px #ff4d4d;
 }
 
 .text-error {
-  color: #ff0000;
+  color: #ff4d4d;
+  text-shadow: 0 0 15px #ff4d4d;
 }
 
-.text-info {
-  color: #00ffff;
-}
-
-.text-highlight {
-  color: #ff00ff;
-}
-
-/* 光標閃爍效果 */
-@keyframes blink {
-  0%, 50% {
-    opacity: 1;
-  }
-  51%, 100% {
-    opacity: 0;
-  }
+.text-warning {
+  color: #ffa500;
+  text-shadow: 0 0 15px #ffa500;
 }
