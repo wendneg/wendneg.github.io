@@ -1,23 +1,149 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>𝚝𝚎𝚛𝚖𝚒𝚗𝚊𝚕</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker Style Portfolio</title>
+    <link rel="stylesheet" href="assets/styles/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div id="terminal">
-    <div id="output"></div>
-    <div id="input-container">
-      <span id="prompt">C:\Users\Anonymous> </span>
-      <div id="input-wrapper">
-        <span id="input-mirror"></span>
-        <input id="input" type="text" autocomplete="off" spellcheck="false" />
-        <div id="cursor"></div>
-      </div>
+    <!-- 背景亂碼 -->
+    <div class="matrix-bg"></div>
+
+    <!-- 側邊導航欄 -->
+    <nav class="cyber-nav">
+        <ul>
+            <li>
+                <a href="#home" class="cyber-button">
+                    <span class="btn-glitch-text" data-text="[HOME]">[HOME]</span>
+                    <span class="btn-glitch-effect"></span>
+                </a>
+            </li>
+            <li>
+                <a href="#about" class="cyber-button">
+                    <span class="btn-glitch-text" data-text="[ABOUT]">[ABOUT]</span>
+                    <span class="btn-glitch-effect"></span>
+                </a>
+            </li>
+            <li>
+                <a href="#projects" class="cyber-button">
+                    <span class="btn-glitch-text" data-text="[PROJECTS]">[PROJECTS]</span>
+                    <span class="btn-glitch-effect"></span>
+                </a>
+            </li>
+            <li>
+                <a href="#contact" class="cyber-button">
+                    <span class="btn-glitch-text" data-text="[CONTACT]">[CONTACT]</span>
+                    <span class="btn-glitch-effect"></span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="app">
+        <!-- 首頁歡迎文字 -->
+        <section id="home" class="content-section active">
+            <div class="glitch-container">
+                <div class="welcome-text mega-glitch" data-text="WELCOME TO MY WEBSITE">
+                    WELCOME TO MY WEBSITE<span class="cursor">_</span>
+                </div>
+                <div class="scan-line"></div>
+            </div>
+        </section>
+
+        <!-- 關於我 -->
+        <section id="about" class="content-section">
+            <div class="section-content">
+                <h2 class="glitch-text">About Me</h2>
+                <div class="about-content">
+                    <div class="card">
+                        <div class="card-content">
+                            <p class="card-title">> whoami</p>
+                            <p class="small-desc">
+                                My name is WenDeng...
+                            </p>
+                            <p class="card-title">> ls skills/</p>
+                            <div class="small-desc">
+                                - JavaScript
+                                - HTML5
+                                - CSS3
+                                - React
+                                - Node.js
+                            </div>
+                            <div class="go-corner">
+                                <div class="go-arrow">
+                                    >_
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 專案展示 -->
+        <section id="projects" class="content-section">
+            <div class="section-content">
+                <h2 class="glitch-text">My Projects</h2>
+                <div class="card">
+                    <div class="card-content">
+                        <p class="card-title">> ls projects/</p>
+                        <div class="small-desc typing-text">
+                            For honest, I have no projects.
+                            But I have a lot of ideas. 
+                            and none of them are implemented.
+                            lmao
+                            That's all.
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            why are you still reading this?
+                        </div>
+                        <div class="go-corner">
+                            <div class="go-arrow">>_</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 聯絡方式 -->
+        <section id="contact" class="content-section">
+            <div class="section-content">
+                <h2 class="glitch-text">Contact Me</h2>
+                <div class="card">
+                    <div class="card-content">
+                        <p class="card-title">> cat contact.txt</p>
+                        <div class="small-desc typing-text">
+                            Discord: malware.cmd
+                        </div>
+                        <div class="social-links">
+                            <a href="mailto:wendeng267@gmail.com" class="social-button">
+                                <span class="btn-glitch-text" data-text="[EMAIL]">[EMAIL]</span>
+                            </a>
+                            <a href="https://github.com/wendneg" target="_blank" class="social-button">
+                                <span class="btn-glitch-text" data-text="[GITHUB]">[GITHUB]</span>
+                            </a>
+                            <a href="https://www.youtube.com/channel/UCC5EEdo0Q7xXRBen-3IYjgw" target="_blank" class="social-button">
+                                <span class="btn-glitch-text" data-text="[YOUTUBE]">[YOUTUBE]</span>
+                            </a>
+                            <a href="https://www.instagram.com/wendeng267" target="_blank" class="social-button">
+                                <span class="btn-glitch-text" data-text="[INSTAGRAM]">[INSTAGRAM]</span>
+                            </a>
+                        </div>
+                        <div class="go-corner">
+                            <div class="go-arrow">>_</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-  </div>
-  <script src="script.js"></script>
+
+    <script src="main.js"></script>
 </body>
 </html>
