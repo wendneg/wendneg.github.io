@@ -57,13 +57,17 @@
      cursor, with a small warm/green glow riding at the same spot. Neither
      layer sits above .page, so the site's actual content never dims. */
   .bg-grid{
-    background-image:
-      linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px);
-    background-size:34px 34px;
-    -webkit-mask-image:radial-gradient(circle 380px at var(--mx,22vw) var(--my,18vh), #000 0%, transparent 78%);
-            mask-image:radial-gradient(circle 380px at var(--mx,22vw) var(--my,18vh), #000 0%, transparent 78%);
-  }
+  /* 1. 繪製網格線條 */
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .07) 1px, transparent 1px);
+  background-size: 34px 34px;
+
+  /* 2. 控制若隱若現的透明度（建議設在 0.3 ~ 0.5 之間） */
+  opacity: 0.3; 
+
+  /* 3. （可選）如果不需要滑鼠光暈，可以取消遮罩設定，預設就不會有 mask-image */
+}
   .bg-glow{
     mix-blend-mode:screen;
     background:radial-gradient(circle 260px at var(--mx,22vw) var(--my,18vh),
